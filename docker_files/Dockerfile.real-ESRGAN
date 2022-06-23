@@ -8,7 +8,7 @@ RUN pip install --upgrade pip
 WORKDIR /NN
 RUN git clone https://github.com/xinntao/Real-ESRGAN.git .
 
-COPY download-weights.sh .
+COPY ./scr/download-weights.sh .
 RUN chmod +x download-weights.sh
 RUN ./download-weights.sh
 
