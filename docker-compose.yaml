@@ -1,0 +1,41 @@
+version: "3.7"
+
+services:
+  # jupyterlab:
+  #   build: 
+  #     context: ./docker_files
+  #     dockerfile: Dockerfile.JupyterLab
+  #   container_name: jupyterlab
+  #   ports:
+  #     - 8888:8888
+  #   volumes:
+  #     - ./data/:/NN/data:rw
+
+  #   # runtime: nvidia
+  #   # OR
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #           - capabilities: [gpu]
+  #             driver: nvidia
+
+  esrgan:
+    build: 
+      context: ./docker_files
+      dockerfile: Dockerfile.real-ESRGAN
+    container_name: esrgan
+    command: python inference_realesrgan_video.py -i inputs/video/onepiece_demo.mp4 -o data/upscaled_data -s 2 --suffix outx2
+    volumes:
+      - ./data/:/NN/data:rw
+    # environment:
+    #   -
+      
+    # runtime: nvidia
+    # OR
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+              driver: nvidia

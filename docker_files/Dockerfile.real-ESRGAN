@@ -1,0 +1,19 @@
+FROM pytorch/pytorch:1.11.0-cuda11.3-cudnn8-runtime
+
+RUN apt-get update
+RUN apt-get install git wget  -y
+
+RUN pip install --upgrade pip
+
+WORKDIR /NN
+RUN git clone https://github.com/xinntao/Real-ESRGAN.git .
+
+COPY download-weights.sh .
+RUN chmod +x download-weights.sh
+RUN ./download-weights.sh
+
+RUN pip install basicsr ffmpeg-python facexlib gfpgan -r requirements.txt
+RUN python setup.py develop
+
+RUN conda install ffmpeg x264 -y
+
