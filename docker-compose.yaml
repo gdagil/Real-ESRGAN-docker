@@ -11,31 +11,37 @@ services:
   #   volumes:
   #     - ./data/:/NN/data:rw
 
-  #   # runtime: nvidia
-  #   # OR
-  #   deploy:
-  #     resources:
-  #       reservations:
-  #         devices:
-  #           - capabilities: [gpu]
-  #             driver: nvidia
 
   esrgan:
-    build: 
-      context: ./docker_files
-      dockerfile: Dockerfile.real-ESRGAN
+    image: danil2286/real-esrgan:latest
     container_name: esrgan
-    command: python inference_realesrgan_video.py -i inputs/video/onepiece_demo.mp4 -o data/upscaled_data -s 2 --suffix outx2
     volumes:
       - ./data/:/NN/data:rw
-    # environment:
-    #   -
+    environment:
+      IS_VIDEOS: false
       
+      INPUT_FORMAT: jpg
+      MODEL_NAME: RealESRGAN_x4plus
+      OUT_SCALE: 2
+      TILE: 0
+      TILE_PAD: 10
+      PRE_PAD: 0
+      SUFFIX: "upped"
+      # STORE_TRUE_ARGS: "--face_enhance --fp32 --extract_frame_first"
+      ALPHA_UPSAMPLER: realesrgan
+
+      # Only for video
+      FPS: 30
+      NUM_PROCESS_PER_GPU: 2
+
+      # Only for images
+      GPU_ID: 0
+
     # runtime: nvidia
     # OR
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - capabilities: [gpu]
-              driver: nvidia
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - capabilities: [gpu]
+    #           driver: nvidia
