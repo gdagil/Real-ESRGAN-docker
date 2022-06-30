@@ -35,7 +35,6 @@ sudo docker-compose up
 
 ### For eample (images)
 ```bash
-docker build .
 docker run --rm --gpus all \
   -e IS_VIDEOS=false \
   -e INPUT_FORMAT=jpg -e MODEL_NAME=RealESRGAN_x4plus \
